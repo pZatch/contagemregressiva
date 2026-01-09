@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contagem Regressiva</title>
+    <style>
+        body { background: #111; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { text-align: center; }
+        #timer { font-size: 3rem; font-weight: bold; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .unit { background: #222; padding: 15px; border-radius: 10px; min-width: 80px; }
+        .label { display: block; font-size: 0.8rem; text-transform: uppercase; color: #888; }
+        @media (max-width: 600px) { #timer { font-size: 1.8rem; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Faltam:</h1>
+        <div id="timer">Carregando...</div>
+    </div>
+
+    <script>
+        const targetDate = new Date("January 17, 2026 18:30:00").getTime();
+
+        const updateTimer = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("timer").innerHTML = `
+                <div class="unit">${days}<span class="label">Dias</span></div>
+                <div class="unit">${hours}<span class="label">Horas</span></div>
+                <div class="unit">${minutes}<span class="label">Min</span></div>
+                <div class="unit">${seconds}<span class="label">Seg</span></div>
+            `;
+
+            if (distance < 0) {
+                clearInterval(updateTimer);
+                document.getElementById("timer").innerHTML = "CHEGOU A HORA!";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
